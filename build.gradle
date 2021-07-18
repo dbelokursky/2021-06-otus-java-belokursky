@@ -8,7 +8,7 @@ plugins {
 
 idea {
     project {
-        languageLevel = 15
+        languageLevel = JavaVersion.VERSION_16
     }
     module {
         downloadJavadoc = true
@@ -20,12 +20,16 @@ allprojects {
     group "ru.otus"
 
     repositories {
+        mavenLocal()
         mavenCentral()
     }
 
     apply plugin: "io.spring.dependency-management"
     dependencyManagement {
         dependencies {
+            imports {
+                mavenBom("org.springframework.boot:spring-boot-dependencies:2.5.2")
+            }
             dependency("com.google.guava:guava:${Versions.guava}")
         }
     }
