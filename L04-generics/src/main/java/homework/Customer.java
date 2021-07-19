@@ -5,12 +5,16 @@ public class Customer {
     private String name;
     private long scores;
 
-    //todo: 1. в этом классе надо исправить ошибки
-
     public Customer(long id, String name, long scores) {
         this.id = id;
         this.name = name;
         this.scores = scores;
+    }
+
+    public Customer(Customer customer) {
+        this.id = customer.id;
+        this.name = customer.name;
+        this.scores = customer.scores;
     }
 
     public long getId() {
@@ -21,16 +25,16 @@ public class Customer {
         return name;
     }
 
-    public Customer setName(String name) {
-        return new Customer(this.id, name, scores);
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getScores() {
         return scores;
     }
 
-    public Customer setScores(long scores) {
-        return new Customer(this.id, this.name, scores);
+    public void setScores(long scores) {
+        this.scores = scores;
     }
 
     @Override
