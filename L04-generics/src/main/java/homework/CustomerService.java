@@ -1,14 +1,11 @@
 package homework;
 
 
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class CustomerService {
 
-    private final TreeMap<Customer, String> customers;
+    private final NavigableMap<Customer, String> customers;
 
     public CustomerService() {
         customers = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
