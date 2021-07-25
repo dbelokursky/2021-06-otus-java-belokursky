@@ -13,6 +13,8 @@ public class AnnotationProcessor {
 
     private final List<Method> markedByAfter;
 
+    Object instance;
+
     private int numberOfSuccessfulTests;
 
     private int numberOfFailedTests;
@@ -40,12 +42,11 @@ public class AnnotationProcessor {
                 method.setAccessible(true);
                 markedByAfter.add(method);
             }
-
         }
 
         try {
+            instance = clazz.getDeclaredConstructor().newInstance();
             for (Method testMethod : markedByTest) {
-                Object instance = clazz.getDeclaredConstructor().newInstance();
                 for (Method beforeMethod : markedByBefore) {
                     beforeMethod.invoke(instance);
                 }
@@ -58,6 +59,9 @@ public class AnnotationProcessor {
         } catch (Exception e) {
             numberOfFailedTests++;
         } finally {
+            for (Method afterMethod : markedByAfter) {
+                afterMethod.invoke(instance);
+            }
             System.out.printf("Number of tests: %d \n", markedByTest.size());
             System.out.printf("Number of successful tests %d \n", numberOfSuccessfulTests);
             System.out.printf("Number of failed tests %d \n", numberOfFailedTests);
