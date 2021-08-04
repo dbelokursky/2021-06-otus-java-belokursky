@@ -1,7 +1,8 @@
 package calculator;
 
+@lombok.Data
 public class Data {
-    private final Integer value;
+    private Integer value;
 
     public Data(Integer value) {
         this.value = value;
