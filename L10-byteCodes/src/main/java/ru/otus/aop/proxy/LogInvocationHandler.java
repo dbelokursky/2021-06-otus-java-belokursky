@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -14,7 +15,10 @@ public class LogInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        printMethodAdditionalInfo(method, args);
+        Set<String> loggableMethods = AnnotationProcessor.getLoggableMethods(loggable.getClass());
+        if (loggableMethods.contains(Util.getMethodNameWithParams(method))) {
+            printMethodAdditionalInfo(method, args);
+        }
         return method.invoke(loggable, args);
     }
 

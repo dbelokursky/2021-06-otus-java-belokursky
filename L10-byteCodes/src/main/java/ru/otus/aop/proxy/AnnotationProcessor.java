@@ -1,35 +1,25 @@
 package ru.otus.aop.proxy;
 
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@Slf4j
 public class AnnotationProcessor {
 
-    public List<Method> getLoggableMethods(String className) {
-        var loggableMethods = new ArrayList<Method>();
-        try {
-            Class<?> clazz = Class.forName(className);
-
-            if (!clazz.isAssignableFrom(Loggable.class)) {
-                return Collections.emptyList();
-            }
-
-            for (Method method : clazz.getDeclaredMethods()) {
-                if (method.isAnnotationPresent(Log.class)) {
-                    loggableMethods.add(method);
-                }
-            }
-            return loggableMethods;
-
-        } catch (ClassNotFoundException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+    public static Set<String> getLoggableMethods(Class<?> clazz) {
+        if (!Loggable.class.isAssignableFrom(clazz)) {
+            return Collections.emptySet();
         }
+
+        var loggableMethods = new HashSet<String>();
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(Log.class)) {
+                loggableMethods.add(Util.getMethodNameWithParams(method));
+            }
+        }
+        return loggableMethods;
     }
+
 }
