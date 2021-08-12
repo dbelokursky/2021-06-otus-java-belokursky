@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
+
+dependencies {
+    compileOnly ('org.projectlombok:lombok')
+    annotationProcessor ('org.projectlombok:lombok')
+    testImplementation ('ch.qos.logback:logback-classic')
+    implementation ('org.slf4j:slf4j-api')
+    implementation ('ch.qos.logback:logback-core')
+
+}
