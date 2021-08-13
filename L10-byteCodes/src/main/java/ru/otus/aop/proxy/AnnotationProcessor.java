@@ -21,5 +21,4 @@ public class AnnotationProcessor {
         }
         return loggableMethods;
     }
-
 }
