@@ -5,11 +5,11 @@ import lombok.SneakyThrows;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
-public class LoggableFactory {
+public class LoggableFactory<T extends Loggable> {
 
     @SneakyThrows
-    public static Loggable getInstance(Class<?> clazz) {
-        InvocationHandler handler = new LogInvocationHandler(new TargetClass());
-        return (Loggable) Proxy.newProxyInstance(LoggableFactory.class.getClassLoader(), new Class<?>[]{clazz}, handler);
+    public T getInstance(Class<T> proxy, Class<T> target) {
+        InvocationHandler handler = new LogInvocationHandler(target.getConstructor().newInstance());
+        return (T) Proxy.newProxyInstance(LoggableFactory.class.getClassLoader(), new Class<?>[]{proxy}, handler);
     }
 }
