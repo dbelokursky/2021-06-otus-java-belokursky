@@ -1,21 +1,24 @@
 package ru.otus.aop.proxy;
 
-import lombok.RequiredArgsConstructor;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 public class LogInvocationHandler implements InvocationHandler {
 
     private final Loggable loggable;
 
+    private final Set<String> loggableMethods;
+
+    public LogInvocationHandler(Loggable loggable) {
+        this.loggable = loggable;
+        this.loggableMethods = AnnotationProcessor.getLoggableMethods(loggable.getClass());
+    }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Set<String> loggableMethods = AnnotationProcessor.getLoggableMethods(loggable.getClass());
         if (loggableMethods.contains(Util.getMethodNameWithParams(method))) {
             printMethodAdditionalInfo(method, args);
         }
