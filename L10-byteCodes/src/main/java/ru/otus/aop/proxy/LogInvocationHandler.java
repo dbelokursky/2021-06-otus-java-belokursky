@@ -6,13 +6,13 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class LogInvocationHandler implements InvocationHandler {
+public class LogInvocationHandler<T> implements InvocationHandler {
 
-    private final Loggable loggable;
+    private final T loggable;
 
     private final Set<String> loggableMethods;
 
-    public LogInvocationHandler(Loggable loggable) {
+    public LogInvocationHandler(T loggable) {
         this.loggable = loggable;
         this.loggableMethods = AnnotationProcessor.getLoggableMethods(loggable.getClass());
     }
