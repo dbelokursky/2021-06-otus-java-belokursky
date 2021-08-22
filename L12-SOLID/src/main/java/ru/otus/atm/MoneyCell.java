@@ -1,16 +1,8 @@
 package ru.otus.atm;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+public class MoneyCell extends MoneyHolder {
 
-@Setter
-@Getter
-@AllArgsConstructor
-public class MoneyCell {
-
-    private final Nominal nominal;
-
-    private volatile long banknotesCount;
-
+    public MoneyCell(Nominal nominal, long banknotesCount) {
+        super(nominal, banknotesCount);
+    }
 }
