@@ -5,6 +5,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.atm.exceptions.ImpossibleToIssueRequestAmountException;
+import ru.otus.atm.exceptions.NotEnoughMoneyException;
 
 import java.util.List;
 
@@ -14,8 +16,8 @@ class AtmTest {
 
     Atm atm;
 
+    //8650
     @BeforeEach
-        //8650
     void setUp() {
         atm = new Atm(1, 1, 1,
                 1, 1, 1);
@@ -37,7 +39,18 @@ class AtmTest {
     void withdrawMoneyUnhappyPath() {
         Exception exception = assertThrows(NotEnoughMoneyException.class, () -> atm.withdrawMoney(9000L));
 
-        String expected = "В банкомате недостаточно средств.";
+        String expected = "There are not enough funds in the ATM.";
+        String actual = exception.getMessage();
+
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("When request amount cannot be issued, should thrown an exception: ImpossibleToIssueRequestAmountException")
+    @Test
+    void withdrawIncorrectAmount() {
+        Exception exception = assertThrows(ImpossibleToIssueRequestAmountException.class, () -> atm.withdrawMoney(1111));
+
+        String expected = "The requested amount cannot be issued: 1111";
         String actual = exception.getMessage();
 
         Assertions.assertThat(actual).isEqualTo(expected);

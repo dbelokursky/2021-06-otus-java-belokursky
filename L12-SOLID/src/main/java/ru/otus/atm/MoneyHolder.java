@@ -2,14 +2,24 @@ package ru.otus.atm;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
-public abstract class MoneyHolder {
+public class MoneyHolder {
 
     private final Nominal nominal;
 
-    private volatile long banknotesCount;
+    private long banknotesCount;
+
+    public void setBanknotesCount(long banknotesCount) {
+        if (banknotesCount >= 0) {
+            this.banknotesCount = banknotesCount;
+        } else {
+            throw new IllegalArgumentException(String.format("Количество банкнот не может быть отрицательным: %d", banknotesCount));
+        }
+    }
+
+    public int getNominalValue() {
+        return nominal.getValue();
+    }
 }

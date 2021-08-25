@@ -1,4 +1,4 @@
-package ru.otus.atm;
+package ru.otus.atm.exceptions;
 
 public class NotEnoughMoneyException extends RuntimeException {
 
