@@ -48,9 +48,10 @@ class AtmTest {
     @DisplayName("When request amount cannot be issued, should thrown an exception: ImpossibleToIssueRequestAmountException")
     @Test
     void withdrawIncorrectAmount() {
-        Exception exception = assertThrows(ImpossibleToIssueRequestAmountException.class, () -> atm.withdrawMoney(1111));
+        long invalidAmount = 1111;
+        Exception exception = assertThrows(ImpossibleToIssueRequestAmountException.class, () -> atm.withdrawMoney(invalidAmount));
 
-        String expected = "The requested amount cannot be issued: 1111";
+        String expected = String.format("The requested amount cannot be issued: %d", invalidAmount);
         String actual = exception.getMessage();
 
         Assertions.assertThat(actual).isEqualTo(expected);
