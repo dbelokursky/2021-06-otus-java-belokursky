@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import static ru.otus.atm.Nominal.*;
 
 
-public class Atm {
+public class Atm implements MoneyOperations {
     private Map<Nominal, MoneyCell> moneyCells;
 
     public Atm(int countBanknotesWithNominal50, int countBanknotesWithNominal100, int countBanknotesWithNominal500,
@@ -51,7 +51,7 @@ public class Atm {
                 resultOfDivision = tmpAmount / cell.getNominalValue();
                 if (cell.getBanknotesCount() >= resultOfDivision) {
                     tmpAmount = tmpAmount - cell.getNominalValue() * resultOfDivision;
-                    cell.setBanknotesCount(cell.getBanknotesCount() - resultOfDivision);
+                    cell.extract(resultOfDivision);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class Atm {
         Map<Nominal, MoneyCell> tmpMoneyCells = createCopy(moneyCells);
         for (CashUnit cashUnit : cashUnits) {
             MoneyCell moneyCell = tmpMoneyCells.get(cashUnit.getNominal());
-            moneyCell.setBanknotesCount(moneyCell.getBanknotesCount() + cashUnit.getBanknotesCount());
+            moneyCell.add(cashUnit.getBanknotesCount());
         }
         moneyCells = tmpMoneyCells;
         return true;
