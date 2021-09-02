@@ -1,15 +1,26 @@
 package ru.otus.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import ru.otus.listener.homework.Copyable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class ObjectForMessage {
+@AllArgsConstructor
+@Setter
+@Getter
+public class ObjectForMessage implements Copyable<ObjectForMessage> {
+
     private List<String> data;
 
-    public List<String> getData() {
-        return data;
+    public ObjectForMessage() {
+        data = new ArrayList<>();
     }
 
-    public void setData(List<String> data) {
-        this.data = data;
+    @Override
+    public ObjectForMessage copy() {
+        return data != null ? new ObjectForMessage(List.copyOf(data)) : new ObjectForMessage();
     }
 }
