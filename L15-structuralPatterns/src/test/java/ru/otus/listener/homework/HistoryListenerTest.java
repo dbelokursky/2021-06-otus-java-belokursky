@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import ru.otus.model.Message;
 import ru.otus.model.ObjectForMessage;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -15,7 +14,7 @@ class HistoryListenerTest {
     @Test
     void listenerTest() {
         //given
-        var historyListener = new HistoryListener(LocalDateTime::now);
+        var historyListener = new HistoryListener();
 
         var id = 100L;
         var data = "33";

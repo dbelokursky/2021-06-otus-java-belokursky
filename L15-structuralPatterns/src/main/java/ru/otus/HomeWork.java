@@ -6,6 +6,7 @@ import ru.otus.model.Message;
 import ru.otus.processor.ProcessorSwitchFields11and12;
 import ru.otus.processor.ProcessorThrowsExceptionInEvenSecond;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class HomeWork {
@@ -23,7 +24,7 @@ public class HomeWork {
 
     public static void main(String[] args) {
         var processors = List.of(new ProcessorSwitchFields11and12(),
-                new ProcessorThrowsExceptionInEvenSecond());
+                new ProcessorThrowsExceptionInEvenSecond(LocalDateTime::now));
 
         var complexProcessor = new ComplexProcessor(processors, ex -> {
         });

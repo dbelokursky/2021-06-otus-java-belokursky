@@ -4,26 +4,22 @@ import lombok.RequiredArgsConstructor;
 import ru.otus.listener.Listener;
 import ru.otus.model.Message;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class HistoryListener implements Listener, HistoryReader {
 
-    private final Map<Long, List<Memento>> history = new HashMap<>();
-    private final DateTimeProvider dateTimeProvider;
+    private final Map<Long, Message> history = new HashMap<>();
 
     @Override
     public void onUpdated(Message msg) {
-        Memento memento = new Memento(msg, dateTimeProvider.getDateTime());
-        if (history.putIfAbsent(msg.getId(), new ArrayList<>(List.of(memento))) != null) {
-            history.get(msg.getId()).add(memento);
-        }
+        history.put(msg.getId(), msg.clone());
     }
 
     @Override
     public Optional<Message> findMessageById(long id) {
-        return Optional.ofNullable(history.get(id))
-                .map(mementos -> mementos.get(0))
-                .map(Memento::getMessage);
+        return Optional.ofNullable(history.get(id));
     }
 }

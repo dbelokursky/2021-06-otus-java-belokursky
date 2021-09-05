@@ -1,10 +1,6 @@
 package ru.otus.model;
 
-import lombok.Getter;
-import ru.otus.listener.homework.Copyable;
-
-@Getter
-public class Message implements Copyable<Message> {
+public class Message implements Cloneable {
     private final long id;
     private final String field1;
     private final String field2;
@@ -83,7 +79,7 @@ public class Message implements Copyable<Message> {
     }
 
     @Override
-    public Message copy() {
+    public Message clone() {
         return new Builder(this.id)
                 .field1(this.field1)
                 .field2(this.field2)
@@ -96,8 +92,64 @@ public class Message implements Copyable<Message> {
                 .field9(this.field9)
                 .field10(this.field10)
                 .field11(this.field11)
-                .field13(this.field13.copy())
+                .field13(this.field13.clone())
                 .build();
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public String getField1() {
+        return this.field1;
+    }
+
+    public String getField2() {
+        return this.field2;
+    }
+
+    public String getField3() {
+        return this.field3;
+    }
+
+    public String getField4() {
+        return this.field4;
+    }
+
+    public String getField5() {
+        return this.field5;
+    }
+
+    public String getField6() {
+        return this.field6;
+    }
+
+    public String getField7() {
+        return this.field7;
+    }
+
+    public String getField8() {
+        return this.field8;
+    }
+
+    public String getField9() {
+        return this.field9;
+    }
+
+    public String getField10() {
+        return this.field10;
+    }
+
+    public String getField11() {
+        return this.field11;
+    }
+
+    public String getField12() {
+        return this.field12;
+    }
+
+    public ObjectForMessage getField13() {
+        return this.field13;
     }
 
     public static class Builder {

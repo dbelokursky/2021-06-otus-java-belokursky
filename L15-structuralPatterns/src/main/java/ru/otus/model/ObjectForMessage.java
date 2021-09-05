@@ -3,7 +3,6 @@ package ru.otus.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.otus.listener.homework.Copyable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-public class ObjectForMessage implements Copyable<ObjectForMessage> {
+public class ObjectForMessage implements Cloneable {
 
     private List<String> data;
 
@@ -20,7 +19,7 @@ public class ObjectForMessage implements Copyable<ObjectForMessage> {
     }
 
     @Override
-    public ObjectForMessage copy() {
+    public ObjectForMessage clone() {
         return data != null ? new ObjectForMessage(List.copyOf(data)) : new ObjectForMessage();
     }
 }
