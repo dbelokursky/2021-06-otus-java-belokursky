@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-30(%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]) %highlight(%-5level) %green(%logger{36}) - %msg%n
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/logs/L10.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/logs/io.%d{dd-MM-yyyy}.log</fileNamePattern>
+            <maxHistory>${audit.logging.maxHistory:-0}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss} %-5p %c{1}:%L - %m%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="File"/>
+        <appender-ref ref="Console"/>
+    </root>
+
+
+    <!--
+    <logger name="org.springframework.web" level="DEBUG"/>
+    -->
+    <!-- Log all SQL DDL statements as they are executed -->
+    <!--<logger name="org.hibernate.SQL" level="DEBUG"/>-->
+    <logger name="org.hibernate.type" level="INFO"/>
+    <!-- Log all JDBC parameters -->
+    <!--<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />-->
+    <logger name="ru.mos.askd.adm" level="DEBUG"/>
+
+    <!--  <logger name="org.springframework.web.servlet.mvc.method.annotation" level="DEBUG"/>-->
+</configuration>
