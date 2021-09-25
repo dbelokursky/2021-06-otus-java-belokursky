@@ -35,3 +35,9 @@ allprojects {
         }
     }
 }
+
+tasks.withType(JavaCompile) {
+    options.with {
+        encoding = 'WINDOWS-1251'
+    }
+}
