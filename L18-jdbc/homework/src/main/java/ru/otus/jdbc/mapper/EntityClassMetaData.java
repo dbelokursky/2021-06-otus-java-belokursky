@@ -2,7 +2,9 @@ package ru.otus.jdbc.mapper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 /**
  * "Разбирает" объект на составные части
@@ -16,7 +18,11 @@ public interface EntityClassMetaData<T> {
     //Аннотацию @Id надо сделать самостоятельно
     Field getIdField();
 
-    List<Field> getAllFields();
+    Map<String, Field> getAllFields();
 
     List<Field> getFieldsWithoutId();
+
+    List<Method> getAllGetters();
+
+    List<Method> getAllSetters();
 }
