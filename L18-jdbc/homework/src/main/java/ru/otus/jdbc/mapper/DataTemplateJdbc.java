@@ -50,12 +50,11 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
         try {
             Constructor<T> constructor = entityClassMetaData.getConstructor();
             T entity = constructor.newInstance();
-            List<Method> setters = entityClassMetaData.getAllSetters();
-            Map<String, Object> fields = getParamsFromResultSet(rs, entityClassMetaData);
-            for (Method method : setters) {
-                String fieldName = method.getName().replaceFirst("set", "").toLowerCase();
-                if (fields.get(fieldName) != null) {
-                    method.invoke(entity, fields.get(fieldName));
+            Map<String, Object> fieldsValues = getParamsFromResultSet(rs, entityClassMetaData);
+            for (Field field : entityClassMetaData.getAllFields().values()) {
+                Object value = fieldsValues.get(field.getName());
+                if (value != null) {
+                    field.set(entity, value);
                 }
             }
 

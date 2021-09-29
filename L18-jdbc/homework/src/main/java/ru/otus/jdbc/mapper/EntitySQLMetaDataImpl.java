@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
 
-    private static final String SELECT_ALL_TEMPLATE = "select * from %s";
-    private static final String SELECT_BY_ID_TEMPLATE = "select * from %s where %s = ?";
+    private static final String SELECT_ALL_TEMPLATE = "select %s from %s";
+    private static final String SELECT_BY_ID_TEMPLATE = "select %s from %s where %s = ?";
     private static final String INSERT_TEMPLATE = "insert into";
     private static final String UPDATE_TEMPLATE = "update";
 
@@ -19,12 +19,14 @@ public class EntitySQLMetaDataImpl<T> implements EntitySQLMetaData {
 
     @Override
     public String getSelectAllSql() {
-        return String.format(SELECT_ALL_TEMPLATE, metaData.getName());
+        String fields = metaData.getAllFields().values().stream().map(Field::getName).collect(Collectors.joining(", "));
+        return String.format(SELECT_ALL_TEMPLATE, fields, metaData.getName());
     }
 
     @Override
     public String getSelectByIdSql() {
-        return String.format(SELECT_BY_ID_TEMPLATE, metaData.getName(), metaData.getIdField().getName());
+        String fields = metaData.getAllFields().values().stream().map(Field::getName).collect(Collectors.joining(", "));
+        return String.format(SELECT_BY_ID_TEMPLATE, fields, metaData.getName(), metaData.getIdField().getName());
     }
 
     @Override
