@@ -9,8 +9,6 @@ import ru.otus.crm.model.Phone;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class DataTemplateHibernateTest extends AbstractHibernateTest {
 
     @Test
@@ -52,8 +50,7 @@ class DataTemplateHibernateTest extends AbstractHibernateTest {
         var loadedClient = transactionManager.doInTransaction(session ->
                 clientTemplate.findById(session, updatedClient.getId())
         );
-        //не сможет корректно проверить тк This method is deprecated because it only compares the first level of fields
-//        assertThat(loadedClient).isPresent().get().isEqualToComparingFieldByField(updatedClient);
+        assertThat(loadedClient).isPresent().get().usingRecursiveComparison(updatedClient);
 
         //when
         var clientList = transactionManager.doInTransaction(session ->
