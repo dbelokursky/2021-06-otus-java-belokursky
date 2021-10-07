@@ -33,7 +33,7 @@ public class DbServiceClientImpl implements DBServiceClient {
             if (client.getId() == null) {
                 var clientId = clientDataTemplate.insert(connection, client);
                 var createdClient = new Client(clientId, client.getName());
-                cache.put(createdClient.getId(), client);
+                cache.put(createdClient.getId(), createdClient);
                 return createdClient;
             }
             clientDataTemplate.update(connection, client);
