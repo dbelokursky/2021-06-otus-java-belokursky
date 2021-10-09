@@ -36,7 +36,6 @@
     <logger name="org.hibernate.type" level="INFO"/>
     <!-- Log all JDBC parameters -->
     <!--<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />-->
-    <logger name="ru.mos.askd.adm" level="DEBUG"/>
 
     <!--  <logger name="org.springframework.web.servlet.mvc.method.annotation" level="DEBUG"/>-->
 </configuration>
