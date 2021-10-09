@@ -27,9 +27,9 @@ public class HWCacheDemo {
 
 
         // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
-        HwListener<Long, Client> listener = new HwListener<Long, Client>() {
+        HwListener<String, Client> listener = new HwListener<String, Client>() {
             @Override
-            public void notify(Long key, Client value, String action) {
+            public void notify(String key, Client value, String action) {
                 log.info("key:{}, value:{}, action: {}", key, value, action);
             }
         };
@@ -45,11 +45,10 @@ public class HWCacheDemo {
         var dataTemplateClient = new DataTemplateJdbc<Client>(dbExecutor, entitySQLMetaDataClient);
 
         var dbServiceClient = new DbServiceClientImpl(transactionRunner, dataTemplateClient);
-        MyCache<Long, Client> cache = dbServiceClient.getCache();
 
-        cache.addListener(listener);
+        dbServiceClient.addListener(listener);
 
-        Long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
         for (int i = 0; i < 1000; i++) {
             dbServiceClient.saveClient(new Client("dbServiceFirst"));
@@ -62,7 +61,7 @@ public class HWCacheDemo {
         //without Spent time: 4206
         log.info("Spent time: {}", (System.currentTimeMillis() - start));
 
-        cache.removeListener(listener);
+        dbServiceClient.removeListener(listener);
     }
 
     private static void flywayMigrations(DataSource dataSource) {

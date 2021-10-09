@@ -2,6 +2,7 @@ package ru.otus.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.cachehw.HwListener;
 import ru.otus.cachehw.MyCache;
 import ru.otus.core.repository.DataTemplate;
 import ru.otus.core.sessionmanager.TransactionRunner;
@@ -15,10 +16,14 @@ public class DbServiceClientImpl implements DBServiceClient {
 
     private final DataTemplate<Client> clientDataTemplate;
     private final TransactionRunner transactionRunner;
-    private final MyCache<Long, Client> cache;
+    private final MyCache<String, Client> cache;
 
-    public MyCache<Long, Client> getCache() {
-        return cache;
+    public void addListener(HwListener<String, Client> listener) {
+        cache.addListener(listener);
+    }
+
+    public void removeListener(HwListener<String, Client> listener) {
+        cache.removeListener(listener);
     }
 
     public DbServiceClientImpl(TransactionRunner transactionRunner, DataTemplate<Client> clientDataTemplate) {
@@ -33,11 +38,14 @@ public class DbServiceClientImpl implements DBServiceClient {
             if (client.getId() == null) {
                 var clientId = clientDataTemplate.insert(connection, client);
                 var createdClient = new Client(clientId, client.getName());
-                cache.put(createdClient.getId(), createdClient);
+                cache.put(String.valueOf(createdClient.getId()), createdClient);
+                log.info("Cache size: {}", cache.size());
                 return createdClient;
             }
             clientDataTemplate.update(connection, client);
-            cache.put(client.getId(), client);
+            cache.put(String.valueOf(client.getId()), client);
+            log.info("Cache size: {}", cache.size());
+
             return client;
         });
     }
@@ -45,11 +53,13 @@ public class DbServiceClientImpl implements DBServiceClient {
     @Override
     public Optional<Client> getClient(long id) {
         return transactionRunner.doInTransaction(connection -> {
-            Client clientFromCache = cache.get(id);
+            Client clientFromCache = cache.get(String.valueOf(id));
             if (clientFromCache != null) {
                 return Optional.of(clientFromCache);
             }
             var clientOptional = clientDataTemplate.findById(connection, id);
+            clientOptional.ifPresent(client -> cache.put(String.valueOf(client.getId()), client));
+            log.info("Cache size: {}", cache.size());
             return clientOptional;
         });
     }
