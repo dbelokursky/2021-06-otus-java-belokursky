@@ -3,34 +3,36 @@ package ru.otus.servlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.otus.dao.UserDao;
+import ru.otus.crm.model.Client;
+import ru.otus.crm.service.DBServiceClient;
 import ru.otus.services.TemplateProcessor;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
-public class UsersServlet extends HttpServlet {
+public class ClientServlet extends HttpServlet {
 
-    private static final String USERS_PAGE_TEMPLATE = "users.html";
-    private static final String TEMPLATE_ATTR_RANDOM_USER = "randomUser";
+    private static final String CLIENTS_PAGE_TEMPLATE = "client.html";
 
-    private final UserDao userDao;
     private final TemplateProcessor templateProcessor;
+    private final DBServiceClient dbServiceClient;
 
-    public UsersServlet(TemplateProcessor templateProcessor, UserDao userDao) {
+    public ClientServlet(TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
         this.templateProcessor = templateProcessor;
-        this.userDao = userDao;
+        this.dbServiceClient = dbServiceClient;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
         Map<String, Object> paramsMap = new HashMap<>();
-        userDao.findRandomUser().ifPresent(randomUser -> paramsMap.put(TEMPLATE_ATTR_RANDOM_USER, randomUser));
+        List<Client> clients = dbServiceClient.findAll();
+        paramsMap.put("clients", clients);
 
         response.setContentType("text/html");
-//        response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
+        response.getWriter().println(templateProcessor.getPage(CLIENTS_PAGE_TEMPLATE, paramsMap));
     }
 
 }
