@@ -2,36 +2,6 @@
 <head>
     <title>Пользователи</title>
     <script>
-        function post(params) {
-
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'api/v1/client';
-
-            for (const key in params) {
-                if (params.hasOwnProperty(key)) {
-                    const hiddenField = document.createElement('input');
-                    hiddenField.type = 'hidden';
-                    hiddenField.name = key;
-                    hiddenField.value = params[key];
-
-                    form.appendChild(hiddenField);
-                }
-            }
-
-            document.body.appendChild(form);
-            form.submit();
-        }
-
-        function getUserById() {
-            const userIdTextBox = document.getElementById('userIdTextBox');
-            const userDataContainer = document.getElementById('clientDataContainer');
-            const id = userIdTextBox.value;
-            fetch('api/v1/client/' + id)
-                .then(response => response.json())
-                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
-        }
-
         function saveClient() {
             const createdClientDataContainer = document.getElementById('createdClientDataContainer');
             // post({"clientName": clientName.value});
@@ -47,11 +17,6 @@
 </head>
 
 <body>
-<h4>Получить пользователя по id</h4>
-<input type="text" id="userIdTextBox" value="3" placeholder="Введите id клиента">
-<button onclick="getUserById()">Получить</button>
-<pre id="clientDataContainer"></pre>
-
 <input type="text" id="clientName" placeholder="Введите имя клиента">
 <button onclick="saveClient()">Создать</button>
 <pre id="createdClientDataContainer"></pre>
