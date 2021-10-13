@@ -1,4 +1,4 @@
-package ru.otus.crm.model;
+package ru.otus.model;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -73,5 +73,10 @@ public class Phone {
     @Override
     public int hashCode() {
         return Objects.hash(id, phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return phoneNumber;
     }
 }

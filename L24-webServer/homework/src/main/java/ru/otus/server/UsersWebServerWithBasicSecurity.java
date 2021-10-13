@@ -9,7 +9,7 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.security.Constraint;
-import ru.otus.crm.service.DBServiceClient;
+import ru.otus.services.DBServiceClient;
 import ru.otus.dao.UserDao;
 import ru.otus.services.TemplateProcessor;
 

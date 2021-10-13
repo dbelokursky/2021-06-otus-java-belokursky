@@ -7,7 +7,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import ru.otus.crm.service.DBServiceClient;
+import ru.otus.services.DBServiceClient;
 import ru.otus.dao.UserDao;
 import ru.otus.helpers.FileSystemHelper;
 import ru.otus.services.TemplateProcessor;

@@ -1,4 +1,4 @@
-package ru.otus.core.repository;
+package ru.otus.dao;
 
 public class DataTemplateException extends RuntimeException {
     public DataTemplateException(Exception ex) {

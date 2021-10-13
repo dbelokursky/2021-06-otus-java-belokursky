@@ -1,4 +1,4 @@
-package ru.otus.crm.model;
+package ru.otus.model;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -10,7 +10,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_gen")
     @SequenceGenerator(name = "address_seq_gen", sequenceName = "address_sequence", allocationSize = 1)
-    private long id;
+    private Long id;
 
     @Column(name = "street")
     private String street;
@@ -22,6 +22,7 @@ public class Address {
     }
 
     public Address(String street, String zipCode) {
+        this.id = null;
         this.street = street;
         this.zipCode = zipCode;
     }
@@ -69,5 +70,10 @@ public class Address {
     @Override
     public int hashCode() {
         return Objects.hash(id, street, zipCode);
+    }
+
+    @Override
+    public String toString() {
+        return "street: " + street + ", zipCode: " + zipCode;
     }
 }

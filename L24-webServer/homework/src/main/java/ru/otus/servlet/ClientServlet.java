@@ -3,8 +3,8 @@ package ru.otus.servlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.otus.crm.model.Client;
-import ru.otus.crm.service.DBServiceClient;
+import ru.otus.model.Client;
+import ru.otus.services.DBServiceClient;
 import ru.otus.services.TemplateProcessor;
 
 import java.io.IOException;

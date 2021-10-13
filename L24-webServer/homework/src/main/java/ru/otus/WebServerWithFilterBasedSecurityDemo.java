@@ -3,17 +3,17 @@ package ru.otus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.hibernate.cfg.Configuration;
-import ru.otus.core.repository.DataTemplateHibernate;
-import ru.otus.core.repository.HibernateUtils;
-import ru.otus.core.sessionmanager.TransactionManagerHibernate;
-import ru.otus.crm.dbmigrations.MigrationsExecutorFlyway;
-import ru.otus.crm.model.Address;
-import ru.otus.crm.model.Client;
-import ru.otus.crm.model.Phone;
-import ru.otus.crm.service.DbServiceClientImpl;
+import ru.otus.dao.DataTemplateHibernate;
+import ru.otus.dao.HibernateUtils;
+import ru.otus.server.UsersWebServer;
+import ru.otus.sessionmanager.TransactionManagerHibernate;
+import ru.otus.dbmigrations.MigrationsExecutorFlyway;
+import ru.otus.model.Address;
+import ru.otus.model.Client;
+import ru.otus.model.Phone;
+import ru.otus.services.DbServiceClientImpl;
 import ru.otus.dao.InMemoryUserDao;
 import ru.otus.dao.UserDao;
-import ru.otus.server.UsersWebServer;
 import ru.otus.server.UsersWebServerWithFilterBasedSecurity;
 import ru.otus.services.TemplateProcessor;
 import ru.otus.services.TemplateProcessorImpl;
@@ -39,6 +39,10 @@ public class WebServerWithFilterBasedSecurityDemo {
         var transactionManager = new TransactionManagerHibernate(sessionFactory);
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
         var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
+
+        for (int i = 0; i < 15; i++) {
+            dbServiceClient.saveClient(new Client(String.format("Client - %d", i)));
+        }
 
         UserDao userDao = new InMemoryUserDao();
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
