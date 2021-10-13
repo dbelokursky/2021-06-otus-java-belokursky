@@ -38,16 +38,20 @@ public class DbServiceClientImpl implements DBServiceClient {
             if (client.getId() == null) {
                 var clientId = clientDataTemplate.insert(connection, client);
                 var createdClient = new Client(clientId, client.getName());
-                cache.put(String.valueOf(createdClient.getId()), createdClient);
+                cache.put(getKey(createdClient), createdClient);
                 log.info("Cache size: {}", cache.size());
                 return createdClient;
             }
             clientDataTemplate.update(connection, client);
-            cache.put(String.valueOf(client.getId()), client);
+            cache.put(getKey(client), client);
             log.info("Cache size: {}", cache.size());
 
             return client;
         });
+    }
+
+    private String getKey(Client createdClient) {
+        return String.valueOf(createdClient.getId());
     }
 
     @Override
@@ -58,7 +62,7 @@ public class DbServiceClientImpl implements DBServiceClient {
                 return Optional.of(clientFromCache);
             }
             var clientOptional = clientDataTemplate.findById(connection, id);
-            clientOptional.ifPresent(client -> cache.put(String.valueOf(client.getId()), client));
+            clientOptional.ifPresent(client -> cache.put(getKey(client), client));
             log.info("Cache size: {}", cache.size());
             return clientOptional;
         });
