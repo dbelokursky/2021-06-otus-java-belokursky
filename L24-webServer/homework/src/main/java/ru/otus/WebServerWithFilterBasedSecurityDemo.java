@@ -40,17 +40,13 @@ public class WebServerWithFilterBasedSecurityDemo {
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
         var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
 
-        for (int i = 0; i < 15; i++) {
-            dbServiceClient.saveClient(new Client(String.format("Client - %d", i)));
-        }
-
         UserDao userDao = new InMemoryUserDao();
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
         UserAuthService authService = new UserAuthServiceImpl(userDao);
 
         UsersWebServer usersWebServer = new UsersWebServerWithFilterBasedSecurity(WEB_SERVER_PORT,
-                authService, userDao, gson, templateProcessor, dbServiceClient);
+                authService, gson, templateProcessor, dbServiceClient);
 
         usersWebServer.start();
         usersWebServer.join();

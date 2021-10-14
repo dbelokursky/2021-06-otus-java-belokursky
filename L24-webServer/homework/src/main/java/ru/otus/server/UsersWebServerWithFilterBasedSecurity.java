@@ -19,11 +19,10 @@ public class UsersWebServerWithFilterBasedSecurity extends UsersWebServerSimple 
 
     public UsersWebServerWithFilterBasedSecurity(int port,
                                                  UserAuthService authService,
-                                                 UserDao userDao,
                                                  Gson gson,
                                                  TemplateProcessor templateProcessor,
                                                  DBServiceClient dbServiceClient) {
-        super(port, userDao, gson, templateProcessor, dbServiceClient);
+        super(port, gson, templateProcessor, dbServiceClient);
         this.authService = authService;
     }
 

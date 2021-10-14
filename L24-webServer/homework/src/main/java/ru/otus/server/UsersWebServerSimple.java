@@ -19,14 +19,12 @@ public class UsersWebServerSimple implements UsersWebServer {
     private static final String START_PAGE_NAME = "index.html";
     private static final String COMMON_RESOURCES_DIR = "static";
 
-    private final UserDao userDao;
     private final Gson gson;
     protected final TemplateProcessor templateProcessor;
     private final Server server;
     private final DBServiceClient dbServiceClient;
 
-    public UsersWebServerSimple(int port, UserDao userDao, Gson gson, TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
-        this.userDao = userDao;
+    public UsersWebServerSimple(int port, Gson gson, TemplateProcessor templateProcessor, DBServiceClient dbServiceClient) {
         this.gson = gson;
         this.templateProcessor = templateProcessor;
         server = new Server(port);
