@@ -11,7 +11,6 @@ import ru.otus.services.DBServiceClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 
 public class ClientApiServlet extends HttpServlet {
@@ -39,11 +38,7 @@ public class ClientApiServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BufferedReader reader = req.getReader();
         Client client = gson.fromJson(reader, Client.class);
-        client = dbServiceClient.saveClient(client);
-
-        resp.setContentType("application/json;charset=UTF-8");
-        ServletOutputStream outputStream = resp.getOutputStream();
-        outputStream.print(gson.toJson(client));
+        dbServiceClient.saveClient(client);
     }
 
     private long extractIdFromRequest(HttpServletRequest request) {
