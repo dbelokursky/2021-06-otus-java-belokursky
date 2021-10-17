@@ -2,7 +2,6 @@ package ru.otus.servlet;
 
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,15 +22,6 @@ public class ClientApiServlet extends HttpServlet {
     public ClientApiServlet(DBServiceClient dbServiceClient, Gson gson) {
         this.gson = gson;
         this.dbServiceClient = dbServiceClient;
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Client client = dbServiceClient.getClient(extractIdFromRequest(request)).orElse(null);
-
-        response.setContentType("application/json;charset=UTF-8");
-        ServletOutputStream out = response.getOutputStream();
-        out.print(gson.toJson(client));
     }
 
     @Override
