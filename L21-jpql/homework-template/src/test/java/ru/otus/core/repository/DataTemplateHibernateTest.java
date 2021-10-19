@@ -9,6 +9,8 @@ import ru.otus.crm.model.Phone;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class DataTemplateHibernateTest extends AbstractHibernateTest {
 
     @Test
@@ -50,7 +52,7 @@ class DataTemplateHibernateTest extends AbstractHibernateTest {
         var loadedClient = transactionManager.doInTransaction(session ->
                 clientTemplate.findById(session, updatedClient.getId())
         );
-        assertThat(loadedClient).isPresent().get().usingRecursiveComparison(updatedClient);
+        assertThat(loadedClient).isPresent().get().usingRecursiveComparison().isEqualTo(updatedClient);
 
         //when
         var clientList = transactionManager.doInTransaction(session ->
