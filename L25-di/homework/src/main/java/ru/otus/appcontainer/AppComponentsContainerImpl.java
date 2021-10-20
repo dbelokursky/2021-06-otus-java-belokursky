@@ -6,7 +6,7 @@ import ru.otus.appcontainer.api.AppComponent;
 import ru.otus.appcontainer.api.AppComponentsContainer;
 import ru.otus.appcontainer.api.AppComponentsContainerConfig;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Slf4j
@@ -15,7 +15,6 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private final Map<String, Object> appComponentsByName = new HashMap<>();
     private final Map<String, Object> appComponentsByClassName = new HashMap<>();
     private final Map<String, Object> appComponentsByClassImplName = new HashMap<>();
-    private final Map<Integer, List<ComponentInfo>> appComponentsOrdered = new TreeMap<>(Comparator.naturalOrder());
 
     public AppComponentsContainerImpl(Class<?> initialConfigClass) {
         processConfig(initialConfigClass);
@@ -24,52 +23,35 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private void processConfig(Class<?> configClass) {
         checkConfigClass(configClass);
         parseConfig(configClass);
-        createComponents(configClass);
-    }
-
-    private void parseConfig(Class<?> configClass) {
-        for (Method method : configClass.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(AppComponent.class)) {
-                Class<?> clazz = method.getReturnType();
-                AppComponent appComponent = method.getAnnotation(AppComponent.class);
-                int order = appComponent.order();
-                method.setAccessible(true);
-                ComponentInfo component = new ComponentInfo(order, clazz, method);
-                if (appComponentsOrdered.get(order) != null) {
-                    appComponentsOrdered.get(order).add(component);
-                } else {
-                    List<ComponentInfo> components = new ArrayList<>();
-                    components.add(component);
-                    appComponentsOrdered.put(order, components);
-                }
-            }
-        }
     }
 
     @SneakyThrows
-    private void createComponents(Class<?> initialConfigClass) {
-        Object config = initialConfigClass.getDeclaredConstructor().newInstance();
-        for (List<ComponentInfo> components : appComponentsOrdered.values()) {
-            Object component;
-            for (ComponentInfo comp : components) {
-                Method method = comp.getMethod();
-                if (method.getParameterCount() == 0) {
-                    component = method.invoke(config);
-                } else {
+    private void parseConfig(Class<?> configClass) {
+        Object config = configClass.getDeclaredConstructor().newInstance();
+        Arrays.stream(configClass.getDeclaredMethods())
+                .filter(method -> method.isAnnotationPresent(AppComponent.class))
+                .sorted(Comparator.comparingInt(method -> method.getAnnotation(AppComponent.class).order()))
+                .forEach(method -> {
+                    method.setAccessible(true);
                     Class<?>[] parameters = method.getParameterTypes();
                     List<Object> args = new ArrayList<>();
-                    for (int i = 0; i < parameters.length; i++) {
-                        Class<?> param = parameters[i];
+
+                    Arrays.stream(parameters).forEach(param -> {
                         Object arg = appComponentsByClassName.get(param.getSimpleName());
                         args.add(arg);
+                    });
+
+                    Object component;
+                    try {
+                        component = method.invoke(config, args.toArray());
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        log.error(e.getMessage(), e);
+                        throw new RuntimeException(e);
                     }
-                    component = method.invoke(config, args.toArray());
-                }
-                appComponentsByName.put(comp.getMethod().getName(), component);
-                appComponentsByClassName.put(comp.getClazz().getSimpleName(), component);
-                appComponentsByClassImplName.put(component.getClass().getSimpleName(), component);
-            }
-        }
+                    appComponentsByName.put(method.getName(), component);
+                    appComponentsByClassName.put(method.getReturnType().getSimpleName(), component);
+                    appComponentsByClassImplName.put(component.getClass().getSimpleName(), component);
+                });
     }
 
     private void checkConfigClass(Class<?> configClass) {
