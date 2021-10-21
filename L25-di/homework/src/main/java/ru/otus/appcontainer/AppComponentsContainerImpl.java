@@ -37,7 +37,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                     List<Object> args = new ArrayList<>();
 
                     Arrays.stream(parameters).forEach(param -> {
-                        Object arg = appComponentsByClassName.get(param.getSimpleName());
+                        Object arg = appComponentsByClassName.get(param.getName());
                         args.add(arg);
                     });
 
@@ -48,9 +48,10 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                         log.error(e.getMessage(), e);
                         throw new RuntimeException(e);
                     }
-                    appComponentsByName.put(method.getName(), component);
-                    appComponentsByClassName.put(method.getReturnType().getSimpleName(), component);
-                    appComponentsByClassImplName.put(component.getClass().getSimpleName(), component);
+                    String name = method.getAnnotation(AppComponent.class).name();
+                    appComponentsByName.put(name, component);
+                    appComponentsByClassName.put(method.getReturnType().getName(), component);
+                    appComponentsByClassImplName.put(component.getClass().getName(), component);
                 });
     }
 
