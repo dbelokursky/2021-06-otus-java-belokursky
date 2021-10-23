@@ -12,9 +12,8 @@ import java.util.*;
 @Slf4j
 public class AppComponentsContainerImpl implements AppComponentsContainer {
 
+    private final List<Object> appComponents = new ArrayList<>();
     private final Map<String, Object> appComponentsByName = new HashMap<>();
-    private final Map<String, Object> appComponentsByClassName = new HashMap<>();
-    private final Map<String, Object> appComponentsByClassImplName = new HashMap<>();
 
     public AppComponentsContainerImpl(Class<?> initialConfigClass) {
         processConfig(initialConfigClass);
@@ -37,7 +36,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                     List<Object> args = new ArrayList<>();
 
                     Arrays.stream(parameters).forEach(param -> {
-                        Object arg = appComponentsByClassName.get(param.getName());
+                        Object arg = getAppComponent(param);
                         args.add(arg);
                     });
 
@@ -50,8 +49,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                     }
                     String name = method.getAnnotation(AppComponent.class).name();
                     appComponentsByName.put(name, component);
-                    appComponentsByClassName.put(method.getReturnType().getName(), component);
-                    appComponentsByClassImplName.put(component.getClass().getName(), component);
+                    appComponents.add(component);
                 });
     }
 
@@ -63,8 +61,10 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     @Override
     public <C> C getAppComponent(Class<C> componentClass) {
-        C component = (C) appComponentsByClassName.get(componentClass.getSimpleName());
-        return component != null ? component : (C) appComponentsByClassImplName.get(componentClass.getSimpleName());
+        return (C) appComponents.stream()
+                .filter(c -> componentClass.isAssignableFrom(c.getClass()))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
