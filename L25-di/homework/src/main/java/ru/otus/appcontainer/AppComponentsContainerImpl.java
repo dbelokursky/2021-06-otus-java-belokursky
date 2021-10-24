@@ -33,16 +33,15 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 .forEach(method -> {
                     method.setAccessible(true);
                     Class<?>[] parameters = method.getParameterTypes();
-                    List<Object> args = new ArrayList<>();
+                    Object[] args = new Object[parameters.length];
 
-                    Arrays.stream(parameters).forEach(param -> {
-                        Object arg = getAppComponent(param);
-                        args.add(arg);
-                    });
+                    for (int i = 0; i < parameters.length; i++) {
+                        args[i] = getAppComponent(parameters[i]);
+                    }
 
                     Object component;
                     try {
-                        component = method.invoke(config, args.toArray());
+                        component = method.invoke(config, args);
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         log.error(e.getMessage(), e);
                         throw new RuntimeException(e);
@@ -64,7 +63,7 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         return (C) appComponents.stream()
                 .filter(c -> componentClass.isAssignableFrom(c.getClass()))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new NoSuchBeanDefinitionException(componentClass.getName()));
     }
 
     @Override
