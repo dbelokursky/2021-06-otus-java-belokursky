@@ -28,16 +28,10 @@ allprojects {
     dependencyManagement {
         dependencies {
             imports {
-                mavenBom("org.springframework.boot:spring-boot-dependencies:2.5.2")
+                mavenBom("org.springframework.boot:spring-boot-dependencies:2.5.5")
             }
             dependency("com.google.guava:guava:${Versions.guava}")
             dependency("org.apache.commons:commons-collections4:${Versions.apache_commons}")
         }
-    }
-}
-
-tasks.withType(JavaCompile) {
-    options.with {
-        encoding = 'WINDOWS-1251'
     }
 }

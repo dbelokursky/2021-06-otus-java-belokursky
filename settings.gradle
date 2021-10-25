@@ -17,4 +17,6 @@ include 'L21-jpql:homework-template'
 include 'L22-cache:demo'
 include 'L22-cache:homework'
 
+include 'L25-di:homework'
+
 include 'L24-webServer:homework'
