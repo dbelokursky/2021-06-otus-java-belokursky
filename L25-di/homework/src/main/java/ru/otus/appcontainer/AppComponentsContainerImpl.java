@@ -68,6 +68,10 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
 
     @Override
     public <C> C getAppComponent(String componentName) {
-        return (C) appComponentsByName.get(componentName);
+        C component = (C) appComponentsByName.get(componentName);
+        if (component == null) {
+            throw new NoSuchBeanDefinitionException(componentName);
+        }
+        return component;
     }
 }
