@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Пользователи</title>
+    <script>
+        function saveClient() {
+            const clientName = document.getElementById('clientName');
+            const clientPhone = document.getElementById('clientPhone');
+            const clientStreet = document.getElementById('clientStreet');
+            const clientZipcode = document.getElementById('clientZipcode');
+            const data = {
+                name: clientName.value,
+                address: {street: clientStreet.value, zipCode: clientZipcode.value},
+                phones: [{phoneNumber: clientPhone.value}]
+            }
+            fetch('api/v1/client', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<input type="text" id="clientName" placeholder="Введите имя">
+<input type="text" id="clientPhone" placeholder="Телефон">
+<input type="text" id="clientStreet" placeholder="Улица">
+<input type="text" id="clientZipcode" placeholder="Индекс">
+<button onclick="saveClient()">Создать</button>
+
+
+<table border="1" style="width: 400px">
+    <thead>
+    <tr>
+        <td style="width: 50px">Id</td>
+        <td style="width: 150px">Имя</td>
+        <td style="width: 150px">Телефон</td>
+        <td style="width: 150px">Адрес</td>
+    </tr>
+    </thead>
+    </tr>
+    <#list clients as client>
+    <tr>
+        <td>${client.id}</td>
+        <td>${client.name}</td>
+        <td><#if client.phones??>${client.phones?join(", ")}</
+        #if></td>
+        <td><#if client.address??>${client.address}</
+        #if></td>
+    </tr>
+</
+#list>
+</table>
+</body>
+</html>

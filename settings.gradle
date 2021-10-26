@@ -20,3 +20,5 @@ include 'L22-cache:homework'
 include 'L25-di:homework'
 
 include 'L24-webServer:homework'
+
+include 'L28-springDataJdbc:homework'
