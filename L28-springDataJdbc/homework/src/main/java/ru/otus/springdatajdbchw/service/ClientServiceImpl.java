@@ -1,0 +1,31 @@
+package ru.otus.springdatajdbchw.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import ru.otus.springdatajdbchw.exception.ClientNotFoundException;
+import ru.otus.springdatajdbchw.model.Client;
+import ru.otus.springdatajdbchw.repository.ClientRepository;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ClientServiceImpl implements ClientService {
+
+    private final ClientRepository clientRepository;
+
+    @Override
+    public List<Client> getClients() {
+        return clientRepository.findAll();
+    }
+
+    @Override
+    public Client getClient(Long id) {
+        return clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
+    }
+
+    @Override
+    public Client saveClient(Client client) {
+        return clientRepository.save(client);
+    }
+}
