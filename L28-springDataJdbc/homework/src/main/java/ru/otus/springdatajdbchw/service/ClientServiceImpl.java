@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.springdatajdbchw.exception.ClientNotFoundException;
 import ru.otus.springdatajdbchw.model.Client;
 import ru.otus.springdatajdbchw.repository.ClientRepository;
+import ru.otus.springdatajdbchw.transaction.TransactionManager;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+
+    private final TransactionManager transactionManager;
 
     @Override
     public List<Client> getClients() {
@@ -26,6 +29,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client saveClient(Client client) {
-        return clientRepository.save(client);
+        return transactionManager.doInTransaction(() -> clientRepository.save(client));
     }
 }
