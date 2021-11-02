@@ -24,7 +24,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client getClient(Long id) {
-        return clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
+        return transactionManager.doInReadOnlyTransaction(() -> clientRepository.findById(id).orElseThrow(ClientNotFoundException::new));
     }
 
     @Override

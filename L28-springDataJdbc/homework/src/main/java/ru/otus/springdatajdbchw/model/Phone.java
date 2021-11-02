@@ -1,9 +1,11 @@
 package ru.otus.springdatajdbchw.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 @Data
+@NoArgsConstructor
 public class Phone {
 
     @Id

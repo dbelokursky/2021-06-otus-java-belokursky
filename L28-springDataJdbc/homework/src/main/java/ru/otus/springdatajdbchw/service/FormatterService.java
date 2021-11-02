@@ -8,4 +8,6 @@ import java.util.Set;
 public interface FormatterService {
 
     String formatPhones(Set<Phone> phones);
+
+    String formatAddress(Address address);
 }

@@ -11,4 +11,10 @@ public class SpringBootTransactionManager implements TransactionManager {
     public <T> T doInTransaction(TransactionAction<T> action) {
         return action.get();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public <T> T doInReadOnlyTransaction(TransactionAction<T> action) {
+        return action.get();
+    }
 }

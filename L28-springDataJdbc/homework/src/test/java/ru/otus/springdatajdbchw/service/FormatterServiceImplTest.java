@@ -1,5 +1,7 @@
 package ru.otus.springdatajdbchw.service;
 
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,12 +11,11 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
 class FormatterServiceImplTest {
 
-    @Autowired
-    private FormatterService formatterService;
+    private FormatterService formatterService = new FormatterServiceImpl();
 
+    @DisplayName("FormatterService test")
     @Test
     void formatPhones() {
         Phone phone1 = new Phone(1L, "1111111111", 1L);

@@ -30,7 +30,7 @@ public class ClientController {
     }
 
     @PostMapping("/clients/add-client")
-    public RedirectView addClient(@ModelAttribute Client client, BindingResult bindingResult, Model model) {
+    public RedirectView addClient(@ModelAttribute Client client) {
         clientService.saveClient(client);
         return new RedirectView("/clients");
     }

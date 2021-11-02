@@ -27,11 +27,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ClientControllerTest {
 
     @MockBean
-    ClientService clientService;
+    private ClientService clientService;
 
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
 
+    @DisplayName("Get clients test")
     @Test
     void getClients() throws Exception {
         Client expected = Client.builder()
@@ -47,6 +48,7 @@ class ClientControllerTest {
                 .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
 
+    @DisplayName("Get add-client page")
     @Test
     void getAddClient() throws Exception {
         mvc.perform(get("/clients/add-client"))
@@ -54,6 +56,7 @@ class ClientControllerTest {
                 .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
 
+    @DisplayName("Add client test")
     @Test
     void addClient() throws Exception {
         Client expected = Client.builder()
