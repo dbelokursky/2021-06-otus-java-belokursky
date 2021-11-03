@@ -1,6 +1,5 @@
 package ru.otus.springdatajdbchw.controller;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,11 @@ import ru.otus.springdatajdbchw.service.ClientService;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("ClientController: тест контроллера клиентов")
 @SpringBootTest
@@ -43,7 +43,7 @@ class ClientControllerTest {
                 .build();
         given(clientService.getClients()).willReturn(List.of(expected));
 
-        mvc.perform(get("/clients"))
+        mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
@@ -51,7 +51,7 @@ class ClientControllerTest {
     @DisplayName("Get add-client page")
     @Test
     void getAddClient() throws Exception {
-        mvc.perform(get("/clients/add-client"))
+        mvc.perform(get("/add-client"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
@@ -68,7 +68,7 @@ class ClientControllerTest {
 
         given(clientService.saveClient(expected)).willReturn(expected);
 
-        mvc.perform(post("/clients/add-client", expected))
+        mvc.perform(post("/add-client", expected))
                 .andExpect(status().is3xxRedirection());
 
 //        verify(clientService, times(1)).saveClient(expected);
