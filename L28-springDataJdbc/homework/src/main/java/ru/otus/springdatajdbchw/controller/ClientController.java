@@ -11,12 +11,12 @@ import ru.otus.springdatajdbchw.model.Client;
 import ru.otus.springdatajdbchw.service.ClientService;
 
 @RequiredArgsConstructor
-@Controller("/")
+@Controller("/clients")
 public class ClientController {
 
     private final ClientService clientService;
 
-    @GetMapping
+    @GetMapping({"/", "/clients"})
     public String getClients(Model model) {
         model.addAttribute("clients", clientService.getClients());
         return "clients";

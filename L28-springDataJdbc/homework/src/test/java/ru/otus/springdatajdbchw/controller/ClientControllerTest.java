@@ -71,6 +71,5 @@ class ClientControllerTest {
         mvc.perform(post("/add-client", expected))
                 .andExpect(status().is3xxRedirection());
 
-//        verify(clientService, times(1)).saveClient(expected);
     }
 }
