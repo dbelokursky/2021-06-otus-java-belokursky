@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление клиента</title>
+    <script src="js/sockjs.min.js"></script>
+    <script src="js/stomp.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <script>
+        let stompClient;
+
+        const connect = () => {
+            stompClient = Stomp.over(new SockJS('/stomp'));
+            stompClient.connect({}, (frame) => {
+                console.log('Connected: ' + frame);
+            });
+        }
+
+        const saveClient = () => {
+            stompClient.send("/app/clients/save", {}, JSON.stringify(
+                {
+                    'name': $("#name").val(),
+                    'address': {
+                        'street': $("#street").val(),
+                        'zipCode': $("#zip").val(),
+                    },
+                    'phones': [{phoneNumber: $("#phones").val()}]
+                }))
+        }
+
+
+        $(function () {
+            $("form").on('submit', (event) => {
+                event.preventDefault();
+            });
+            $("#save").click(saveClient);
+        });
+
+    </script>
+</head>
+<body onload="connect()">
+<form>
+    <label for="name">Имя</label>
+    <p>
+        <input id="name" type="text">
+    </p>
+    <label for="street">Улица</label>
+    <p>
+        <input id="street" type="text">
+    </p>
+    <label for="zip">Индекс</label>
+    <p>
+        <input id="zip" type="text">
+    </p>
+    <label for="phones">Телефон</label>
+    <p>
+        <input id="phones" type="text">
+    </p>
+    <p>
+        <button id="save" type="submit">Создать</button>
+    </p>
+</form>
+
+</body>
+</html>

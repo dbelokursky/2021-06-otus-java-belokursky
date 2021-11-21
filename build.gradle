@@ -32,6 +32,15 @@ allprojects {
             }
             dependency("com.google.guava:guava:${Versions.guava}")
             dependency("org.apache.commons:commons-collections4:${Versions.apache_commons}")
+
+            dependency("org.webjars:webjars-locator-core:${Versions.webJarsLocator}")
+            dependency("org.webjars:sockjs-client:${Versions.sockjs}")
+            dependency("org.webjars:stomp-websocket:${Versions.stomp}")
+            dependency("org.webjars:bootstrap:${Versions.bootstrap}")
+            dependency("io.springfox:springfox-boot-starter:${Versions.swagger}")
+            dependency("org.mapstruct:mapstruct:${Versions.mapstruct}")
+            dependency("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+
         }
     }
 }
