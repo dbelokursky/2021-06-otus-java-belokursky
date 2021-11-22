@@ -2,12 +2,10 @@ package ru.otus.springdatajdbchw.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.springdatajdbchw.dto.ClientDto;
-import ru.otus.springdatajdbchw.model.Client;
 import ru.otus.springdatajdbchw.service.ClientService;
 
 @RestController
@@ -18,14 +16,14 @@ public class ClientWebSocketController {
 
     private final ClientService clientService;
 
-    @GetMapping("/getClients")
+    @Scheduled(fixedRate = 1000)
     public void getClients() {
         messagingTemplate.convertAndSend("/topic/clients", clientService.getClients());
     }
 
     @MessageMapping("/clients/save")
-    @SendTo("/topic/clients")
-    public ClientDto saveClient(Client client) {
+//    @SendTo("/topic/clients")
+    public ClientDto saveClient(ClientDto client) {
         return clientService.saveClient(client);
     }
 

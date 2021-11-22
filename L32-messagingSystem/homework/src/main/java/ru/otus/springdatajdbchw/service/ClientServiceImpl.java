@@ -5,12 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.otus.springdatajdbchw.dto.ClientDto;
 import ru.otus.springdatajdbchw.exception.ClientNotFoundException;
 import ru.otus.springdatajdbchw.mapper.ClientMapper;
-import ru.otus.springdatajdbchw.model.Client;
 import ru.otus.springdatajdbchw.repository.ClientRepository;
 import ru.otus.springdatajdbchw.transaction.TransactionManager;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +25,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findAll()
                 .stream()
                 .map(clientMapper::clientToClientDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -38,7 +36,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto saveClient(Client client) {
-        return clientMapper.clientToClientDto(transactionManager.doInTransaction(() -> clientRepository.save(client)));
+    public ClientDto saveClient(ClientDto client) {
+        return clientMapper.clientToClientDto(transactionManager.doInTransaction(() ->
+                clientRepository.save(clientMapper.clientDtoToClient(client))));
     }
 }

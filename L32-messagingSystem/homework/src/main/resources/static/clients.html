@@ -69,11 +69,11 @@
             stompClient.connect({}, (frame) => {
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/clients', (msg) => {
-                    console.log(msg)
+                    console.log(msg);
                     createTableFromJson(JSON.parse(msg.body));
+
                 });
             });
-            fetch("/getClients");
         }
     </script>
 </head>

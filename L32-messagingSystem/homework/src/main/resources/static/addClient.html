@@ -21,12 +21,10 @@
             stompClient.send("/app/clients/save", {}, JSON.stringify(
                 {
                     'name': $("#name").val(),
-                    'address': {
-                        'street': $("#street").val(),
-                        'zipCode': $("#zip").val(),
-                    },
-                    'phones': [{phoneNumber: $("#phones").val()}]
-                }))
+                    'street': $("#street").val(),
+                    'zipCode': $("#zip").val(),
+                    'phones': $("#phones").val()
+                }));
         }
 
 
