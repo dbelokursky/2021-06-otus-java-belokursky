@@ -10,4 +10,11 @@ public class ClientDto {
     private final String street;
     private final String zipCode;
     private final String phones;
+
+    public ClientDto() {
+        this.name = null;
+        this.street = null;
+        this.zipCode = null;
+        this.phones = null;
+    }
 }

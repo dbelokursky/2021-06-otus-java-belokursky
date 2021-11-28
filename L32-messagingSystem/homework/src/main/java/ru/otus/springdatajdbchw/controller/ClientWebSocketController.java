@@ -6,7 +6,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.springdatajdbchw.dto.ClientDto;
-import ru.otus.springdatajdbchw.service.ClientService;
 import ru.otus.springdatajdbchw.service.FrontendService;
 
 @RestController
@@ -14,8 +13,6 @@ import ru.otus.springdatajdbchw.service.FrontendService;
 public class ClientWebSocketController {
 
     private final SimpMessagingTemplate messagingTemplate;
-
-    private final ClientService clientService;
 
     private final FrontendService frontendService;
 
