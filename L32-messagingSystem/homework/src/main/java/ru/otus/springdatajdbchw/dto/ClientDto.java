@@ -6,15 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class ClientDto {
-    private final String name;
-    private final String street;
-    private final String zipCode;
-    private final String phones;
-
-    public ClientDto() {
-        this.name = null;
-        this.street = null;
-        this.zipCode = null;
-        this.phones = null;
-    }
+    private String name;
+    private String street;
+    private String zipCode;
+    private String phones;
 }

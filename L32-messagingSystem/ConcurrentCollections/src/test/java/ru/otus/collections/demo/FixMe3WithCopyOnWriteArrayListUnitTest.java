@@ -1,6 +1,7 @@
 package ru.otus.collections.demo;
 
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class FixMe3WithCopyOnWriteArrayListUnitTest {
 
     private static final int ITERATIONS_COUNT = 1000;
 
+    @Disabled
     @Test
     public void testCopyOnWriteArrayListWorksGreat() throws InterruptedException {
 

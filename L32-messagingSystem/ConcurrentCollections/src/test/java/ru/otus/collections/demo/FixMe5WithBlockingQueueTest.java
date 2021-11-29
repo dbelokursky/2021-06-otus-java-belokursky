@@ -1,5 +1,6 @@
 package ru.otus.collections.demo;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class FixMe5WithBlockingQueueTest {
 
     private static final int ITERATIONS_COUNT = 1000;
 
+    @Disabled
     @Test
     public void testBlockingQueueWorksGreat() throws InterruptedException {
 

@@ -1,5 +1,6 @@
 package ru.otus.collections.demo;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class FixMe2WithSynchronizedCollectionUnitTest {
 
     private static final int ITERATIONS_COUNT = 1000;
 
+    @Disabled
     @Test
     public void testSyncCollectionWorksGreat() throws InterruptedException {
 
