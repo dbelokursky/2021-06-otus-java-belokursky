@@ -6,23 +6,14 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 dependencies {
-    implementation("org.reflections:reflections:${Versions.reflections}")
-    compileOnly ('org.projectlombok:lombok')
-    annotationProcessor('org.projectlombok:lombok')
-    testImplementation('ch.qos.logback:logback-classic')
-    implementation('org.slf4j:slf4j-api')
-    implementation('ch.qos.logback:logback-core')
+    implementation("org.apache.commons:commons-lang3")
+    implementation("ch.qos.logback:logback-classic")
 
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-junit-jupiter")
-
-
-
 }
-
-compileJava.options.encoding = 'UTF-8'
 
 test {
     useJUnitPlatform()
@@ -30,6 +21,9 @@ test {
         events "passed", "skipped", "failed"
     }
 }
+
+compileJava.options.encoding = 'UTF-8'
+
 tasks.withType(JavaCompile) {
     options.with {
         encoding = 'UTF-8'

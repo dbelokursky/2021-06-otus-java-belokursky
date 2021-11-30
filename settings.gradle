@@ -32,3 +32,8 @@ include 'L28-springDataJdbc:homework'
 
 include 'L31-executors:homework'
 
+include 'L32-messagingSystem:homework'
+include 'L32-messagingSystem:ConcurrentCollections'
+include 'L32-messagingSystem:MessageSystem'
+include 'L32-messagingSystem:MessageSystemApp'
+
