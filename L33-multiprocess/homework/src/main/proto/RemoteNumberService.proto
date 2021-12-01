@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ru.otus.protobuf.generated;
+
+option java_multiple_files = true;
+
+message RangeMessage {
+  int64 firstValue = 1;
+  int64 lastValue = 2;
+}
+
+message ValueMessage {
+  int64 currentValue = 3;
+}
+
+service RemoteNumberService {
+  rpc generateSequence(RangeMessage) returns (stream ValueMessage);
+}

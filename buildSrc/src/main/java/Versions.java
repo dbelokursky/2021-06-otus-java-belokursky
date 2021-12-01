@@ -26,4 +26,6 @@ public interface Versions {
 
     String reflections = "0.9.12";
 
+    String grpc = "1.42.0";
+
 }
