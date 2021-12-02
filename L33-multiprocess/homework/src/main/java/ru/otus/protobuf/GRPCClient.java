@@ -37,7 +37,10 @@ public class GRPCClient {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-        executorService.submit(() -> valueMessageIterator.forEachRemaining(valueMessages::addFirst));
+        executorService.submit(() -> valueMessageIterator.forEachRemaining(n -> {
+            valueMessages.poll();
+            valueMessages.addFirst(n);
+        }));
 
         AtomicLong currentValue = new AtomicLong();
         executorService.submit(() -> {
